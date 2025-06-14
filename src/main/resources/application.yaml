@@ -1,0 +1,15 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://db:5432/mydb
+    username: myuser
+    password: mypassword
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: true
+      path: /graphiql # ex: http://localhost:8080/graphiql?path=/graphql

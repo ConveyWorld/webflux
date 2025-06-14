@@ -1,0 +1,51 @@
+http://localhost:8080/graphiql?path=/graphql
+
+query findAcc{
+  findAccountById(accountId: "NEWACC04"){
+    accountId
+    name
+    age
+  }
+}
+
+query findAllAccount{
+  fetchAllAccount{
+    accountId
+    name
+    email
+    age
+  }
+}
+
+mutation deleteAccount{
+  deleteAccount(accountId:"NEWACC04")
+}
+
+mutation create{
+  createAccount(account: {
+    accountId: "NEWACC04"
+    name: "John Doe"
+    age: "30"
+    email: "johndoe2@gmail.com"
+  }) {
+    accountId
+    name
+    age
+    email
+  }
+}
+
+
+mutation update{
+  updateAccount(account: {
+    accountId: "NEWACC02"
+    name: "Gra John Doe"
+    age: "30"
+    email: "johndoe@gmail.com"
+  }, accountId: "NEWACC02") {
+    accountId
+    name
+    age
+    email
+  }
+}

@@ -1,0 +1,23 @@
+type Query {
+    findAccountById(accountId: String): Account
+    fetchAllAccount: [Account]
+
+}
+type  Account {
+    accountId: String
+    name: String
+    age: String
+    email: String
+}
+type Mutation {
+    createAccount(account: AccountInput): Account
+    updateAccount(accountId: String, account: AccountInput): Account
+    deleteAccount(accountId: String): String
+}
+
+input AccountInput {
+    accountId: String
+    name: String
+    age: String
+    email: String
+}
