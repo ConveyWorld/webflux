@@ -12,6 +12,6 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - D:\Apps\postgres_data:/var/lib/postgresql/data  # Volume giữ dữ liệu
+      - /Users/dathx/Documents/Workplace/BK/Data:/var/lib/postgresql/data  # Volume giữ dữ liệu
 #volumes:
 #  postgres_data:

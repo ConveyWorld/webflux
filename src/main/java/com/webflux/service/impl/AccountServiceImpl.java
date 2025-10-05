@@ -1,6 +1,10 @@
 package com.webflux.service.impl;
 
+import com.webflux.constant.ResponseCodeMapper;
 import com.webflux.dto.AccountResponse;
+import com.webflux.dto.common.BaseRequest;
+import com.webflux.dto.common.BaseResponse;
+import com.webflux.dto.common.BaseResult;
 import com.webflux.entity.Account;
 import com.webflux.repository.AccountRepository;
 import com.webflux.service.AccountService;
@@ -35,8 +39,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Mono<Account> createAccount(Account account) {
-        return accountRepository.save(account);
+    public Mono<BaseResponse<Account>> createAccount(BaseRequest<Account> request) {
+        BaseResponse<Account> response = new BaseResponse<>();
+        response.setResult(BaseResult.builder()
+                .code(ResponseCodeMapper.SUCCESSFULLY.getCompositCode())
+                .message(ResponseCodeMapper.SUCCESSFULLY.getDescription())
+                .build());
+        response.setRequestId(request.getRequestId());
+        response.setRequestType(request.getRequestType());
+
+        return  accountRepository.save(request.getData())
+                .doOnNext(response::setData).thenReturn(response);
     }
 
 

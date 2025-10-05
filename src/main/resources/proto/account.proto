@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_package = "com.account";
+option java_multiple_files = true;
+
+service AccountGrpc {
+  rpc getAccount (GetAccountRequest) returns (GetAccountResponse);
+}
+
+message GetAccountResponse {
+    string requestId = 1;
+    string requestType = 2;
+    string requestDateTime = 3;
+    Result result = 4;
+    Data data = 5;
+
+    message Data {
+      string accountId = 1;
+      string name = 2;
+      string email = 3;
+      string age = 4;
+    }
+  }
+  message GetAccountRequest {
+    string requestId = 1;
+    string requestType = 2;
+    string requestDateTime = 3;
+    Data data = 4;
+
+    message Data {
+      string accountId = 1;
+    }
+  }
+  message Result {
+    string responseCode = 1;
+    string description = 2;
+  }

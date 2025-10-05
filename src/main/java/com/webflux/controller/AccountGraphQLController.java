@@ -29,11 +29,11 @@ public class AccountGraphQLController {
                 .map(accountService::getAccountResponse).onErrorResume(ex -> Flux.empty());
     }
 
-    @MutationMapping
-    public Mono<AccountResponse> createAccount(@Argument Account account) {
-        return accountService.createAccount(account).log()
-                .map(accountService::getAccountResponse).onErrorResume(ex -> Mono.empty());
-    }
+//    @MutationMapping
+//    public Mono<AccountResponse> createAccount(@Argument Account account) {
+//        return accountService.createAccount(account).log()
+//                .map(accountService::getAccountResponse).onErrorResume(ex -> Mono.empty());
+//    }
 
     @MutationMapping
     public Mono<AccountResponse> updateAccount(@Argument Account account, @Argument String accountId) {

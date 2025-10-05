@@ -1,6 +1,8 @@
 package com.webflux.controller;
 
 import com.webflux.dto.AccountResponse;
+import com.webflux.dto.common.BaseRequest;
+import com.webflux.dto.common.BaseResponse;
 import com.webflux.entity.Account;
 import com.webflux.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +14,10 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class AccountRestController {
+public class AccountRestController extends CommonController {
 
     private final AccountService accountService;
-    // Feature 2 - updated
-    // Feature - updated 1 -> updated 2 - new 1
-    // SIT
-    // DEV
+
     @GetMapping(value = "/account/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponse> getAccount(@PathVariable("accountId") String accountId) {
         return accountService.findAccountById(accountId)
@@ -28,23 +27,27 @@ public class AccountRestController {
     @GetMapping(value = "/account/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<AccountResponse> fetchAllAccount() {
         return accountService.findAllAccounts().log()
-                .map(accountService::getAccountResponse).onErrorResume(ex -> {
-                    return Flux.empty();
-                });
+                .map(accountService::getAccountResponse).onErrorResume(ex -> Flux.empty());
     }
 
     @PostMapping(value = "/account/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Account> createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account).log();
+    public Mono<BaseResponse<Account>> createAccount(@RequestBody BaseRequest<Account> account) {
+        long startTime = System.currentTimeMillis();
+
+        return processRestApi(
+                account, Account.class
+                , () -> accountService.createAccount(account)
+                , res -> res
+                , "createAccount"
+                , startTime
+        );
     }
 
     @PatchMapping(value = "/account/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<AccountResponse> updateAccount(@RequestBody Account account) {
         return accountService.updateAccount(account).log()
-                .map(accountService::getAccountResponse).onErrorResume(ex -> {
-                    return Mono.empty();
-                });
+                .map(accountService::getAccountResponse).onErrorResume(ex -> Mono.empty());
     }
 
     @DeleteMapping(value = "/account/delete/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
